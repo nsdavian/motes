@@ -10,10 +10,37 @@ import {
   TextInput,
   Button
 } from "react-native";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import Colors from "../components/Colors";
+import NavBack from "../components/NavBack";
 
-const AddNotes = ({ ...props }) => {
+const AddNotes = ({ navigation , ...props }) => {
+
+    const handle = () => (
+        props.handleNotes(),
+        navigation.goBack()
+    )
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'New mote',
+            headerLeft: () => (
+                <NavBack 
+                onPress={() => navigation.goBack()}
+                color={Colors.red}
+                name='Cancel'
+                />
+            ),
+            headerRight: () => (
+                <NavBack 
+                onPress={handle}
+                color={Colors.neBlu}
+                name='Add'
+                />
+            )
+        })
+    }, [navigation, props.handleNotes])
+
   return (
       <ScrollView style={styles.case} >
           <KeyboardAvoidingView
@@ -26,12 +53,11 @@ const AddNotes = ({ ...props }) => {
                   onBlur={() => props.handleNotes()}
                   onChangeText={(text) => props.setNote(text)}
                    multiline
-                //    autoFocus
                    placeholderTextColor={Colors.comp3}
-                   placeholder="Type" 
+                   placeholder="Mote" 
                   />                      
               </View>
-              <Text style={styles.newnote} >Tap for new note</Text>
+              <Text style={styles.newnote} >Tap for new mote</Text>
               {/* <Button title="add" onPress={() => props.handleNotes()} /> */}
           </KeyboardAvoidingView>
           
@@ -63,7 +89,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 17,
         paddingTop: 10,
-        paddingBottom: 190,
+        paddingBottom: 170,
         color: Colors.neWhite,
         // backgroundColor: Colors.neWhite
     }

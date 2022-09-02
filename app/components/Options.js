@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, {useRef} from 'react'
 import ActionSheet from 'react-native-actions-sheet'
-import { Feather, FontAwesome5, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons'
+import { Feather, FontAwesome5, Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import Colors from './Colors';
 import Toast from 'react-native-toast-message'
 
-const Options = ({ onPressBin, onPressDeleAll, count }) => {
+const Options = ({ onPressBin, onPressDeleAll, onPressCal, count }) => {
 
     const opensheet = useRef();
 
@@ -15,8 +15,8 @@ const Options = ({ onPressBin, onPressDeleAll, count }) => {
 
   return (
     <View>
-        <TouchableOpacity activeOpacity={1} style={styles.case} onPress={showActionSheet} >
-            <FontAwesome5 name='bars' size={24} color={Colors.ground} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.case} onPress={showActionSheet} >
+            <FontAwesome5 name='bars' size={24} color={Colors.nedark} />
         </TouchableOpacity>
 
         <ActionSheet ref={opensheet} >
@@ -41,17 +41,19 @@ const Options = ({ onPressBin, onPressDeleAll, count }) => {
 
                     <View style={styles.align} >
                         <TouchableOpacity 
-                        onPress={() => Toast.show({
-                            type: 'error',
-                            text1: 'In development',
-                            text2: 'Layout change is unavailable at this time',
-                            topOffset: 5
-                        })}
+                        // onPress={() => Toast.show({
+                        //     type: 'error',
+                        //     text1: 'In development',
+                        //     text2: 'Layout change is unavailable at this time',
+                        //     topOffset: 5
+                        // })}
+                        onPress={onPressCal}
                         activeOpacity={0.8}
                         style={styles.btn} >
-                            <AntDesign name='appstore-o' size={30} color={Colors.comp3} />
+                            <FontAwesome name='calendar' size={30} color={Colors.comp3} />
+                            {/* <AntDesign name='appstore-o' size={30} color={Colors.comp3} /> */}
                         </TouchableOpacity>
-                        <Text style={styles.btntxt} >Layout</Text>
+                        <Text style={styles.btntxt} >Calendar</Text>
                     </View> 
 
                     <View style={styles.align} >
@@ -60,15 +62,15 @@ const Options = ({ onPressBin, onPressDeleAll, count }) => {
                             Toast.show({
                                 type: 'error',
                                 text1: 'In development',
-                                text2: 'Settings option is unavailable at this time',
-                                topOffset: 5
+                                text2: 'Sketch option is unavailable at this time',
+                                topOffset: 45
                               })
                         }
                         activeOpacity={0.8}
                         style={styles.btn} >
-                            <Feather name='settings' size={30}  color={Colors.comp3} />
+                            <MaterialCommunityIcons name='draw' size={40}  color={Colors.comp3} />
                         </TouchableOpacity>
-                        <Text style={styles.btntxt} >Settings</Text>  
+                        <Text style={styles.btntxt} >Sketch</Text>  
                     </View>  
 
                 </View>
@@ -81,7 +83,7 @@ const Options = ({ onPressBin, onPressDeleAll, count }) => {
                     <Entypo name='squared-cross' size={25} color={Colors.ground} />
                 </TouchableOpacity>
 
-                <Text style={styles.brand} >By North X Studio  /  Beta Version 1.0.1</Text>
+                <Text style={styles.brand} >By North X Studio  /  Beta Version 1.1.0</Text>
 
             </View>
         </ActionSheet>
@@ -115,9 +117,10 @@ const styles = StyleSheet.create({
     bar: {
         height: 5,
         width: '15%',
-        marginVertical: 8,
+        marginBottom: 4,
+        marginTop: 12,
         borderRadius: 10,
-        backgroundColor: Colors.ground
+        backgroundColor: Colors.comp4
     },
     align: {
         alignItems: 'center',

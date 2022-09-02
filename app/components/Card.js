@@ -30,8 +30,8 @@ const Card = ({ note, time, dele, eded, vi }) => {
 
     return (
     <View>
-        <TouchableOpacity activeOpacity={0.9} onPress={showActionSheet} style={styles.case} >
-            <Text style={styles.txt} >{ note.length > 190 ? `${note.substring(0, 190)}...` : note }</Text>
+        <TouchableOpacity activeOpacity={0.7} onPress={showActionSheet} style={styles.case} >
+            <Text style={styles.txt} >{ note.length > 200 ? `${note.substring(0, 190)}...` : note }</Text>
         </TouchableOpacity> 
 
         <ActionSheet ref={opensheet} >
@@ -44,8 +44,8 @@ const Card = ({ note, time, dele, eded, vi }) => {
                     <View style={styles.btnwrap} >
                         <TouchableOpacity 
                         onPress={eded} 
-                        activeOpacity={0.7} 
-                        style={[styles.btn, { borderColor: '#42a0ff' }]} >
+                        activeOpacity={0.6} 
+                        style={[styles.btn, { borderColor: Colors.neBlu }]} >
                             <AntDesign color={Colors.theme} name='edit' size={40}  />
                         </TouchableOpacity>
                         <Text style={styles.btntxt} >Edit</Text>
@@ -54,8 +54,8 @@ const Card = ({ note, time, dele, eded, vi }) => {
 
                     <View style={styles.btnwrap} >
                         <TouchableOpacity 
-                        style={[styles.btn, { borderColor: Colors.comp3 }]} 
-                        activeOpacity={0.7}
+                        style={[styles.btn, { borderColor: Colors.comp4 }]} 
+                        activeOpacity={0.6}
                         onPress={vi} >
                             <Feather color={Colors.comp3} name='eye' size={40} />
                         </TouchableOpacity>
@@ -64,14 +64,14 @@ const Card = ({ note, time, dele, eded, vi }) => {
 
                     <View style={styles.btnwrap} >
                         <TouchableOpacity 
-                        style={[styles.btn, { borderColor: Colors.comp3 }]} 
-                        activeOpacity={0.7}
+                        style={[styles.btn, { borderColor: Colors.comp4 }]} 
+                        activeOpacity={0.6}
                         onPress={() => 
                             Toast.show({
                                 type: 'error',
                                 text1: 'In development',
-                                text2: 'Card theme change is unavailabe at this time',
-                                topOffset: 5
+                                text2: 'Card color change is unavailabe at this time',
+                                topOffset: 45
                               })
                         } >
                             <MaterialCommunityIcons color={Colors.comp3} name='card-text-outline' size={40} />
@@ -82,7 +82,7 @@ const Card = ({ note, time, dele, eded, vi }) => {
                     <View style={styles.btnwrap} >
                         <TouchableOpacity 
                         onPress={dele} 
-                        activeOpacity={0.7} 
+                        activeOpacity={0.6} 
                         style={[styles.btn, {  borderColor: '#ff6a6b' }]} >
                             <MaterialIcons color={Colors.red} name='delete' size={40} />
                         </TouchableOpacity>   
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     case: {
         flexDirection: 'row',
         minHeight: 60,
-        maxHeight: 250,
+        maxHeight: 280,
         width: '92%',
         alignSelf: 'center',
         paddingHorizontal: 13,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     btncase: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 25,
+        marginTop: 20,
         marginBottom: 15,
         paddingHorizontal:10
     },
@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
         width: '15%',
         height: 5,
         borderRadius: 10,
-        marginTop: 8,
-        backgroundColor: Colors.ground
+        marginTop: 10,
+        backgroundColor: Colors.comp4
     },
     line: {
         height: 0.5,
         width: '91%',
-        marginBottom: 20,
+        marginBottom: 17,
         alignSelf: 'center',
         backgroundColor: Colors.comp3
     },
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     },
 
     btn: {
-        width: 70,
-        height: 70,
+        width: 69,
+        height: 69,
         borderRadius: 60,
         borderWidth: 1,
         marginBottom: 2,

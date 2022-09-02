@@ -52,7 +52,7 @@ const DeleteCard = ({ item, onPressUndo, onPressDelete }) => {
           </View>
 
           <View style={styles.line} />
-          <Text style={styles.brandtxt} >By North X Studio  /  Beta Version 1.0.1</Text>
+          <Text style={styles.brandtxt} >By North X Studio  /  Beta Version 1.1.0</Text>
 
         </View>
       </ActionSheet>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     width: '16%',
     marginVertical: 7,
     borderRadius: 10,
-    backgroundColor: Colors.ground
+    backgroundColor: Colors.comp4
   },
   
   btncase :{ 

@@ -1,17 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Home from './app/screens/Home';
+import { Provider } from 'react-native-paper';
 import AppNavigation from './app/navigation/AppNavigation';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <AppNavigation />
+      <Provider>
+        <AppNavigation />
+      </Provider>
       <StatusBar  
-      style='light'
+      style='inverted'
       />
     </NavigationContainer>
   );
 }
+
 

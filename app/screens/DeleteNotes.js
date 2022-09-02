@@ -1,14 +1,27 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { FontAwesome, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../components/Colors'
 import DeleteCard from '../components/DeleteCard'
+import NavBack from '../components/NavBack'
 import Toast from 'react-native-toast-message'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const DeleteNotes = ({ ...props }) => {
+const DeleteNotes = ({ navigation, ...props }) => {
 
     const count = [...props.addToBin]
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <NavBack 
+                onPress={() => navigation.goBack()}
+                name='Back'
+                color={Colors.neBlu}
+                />
+            )
+        })
+    }, [navigation])
 
     const emptyBin = () => {
         Alert.alert(
@@ -53,7 +66,7 @@ const DeleteNotes = ({ ...props }) => {
         Toast.show({
             type: 'success',
             text1: 'All motes restored',
-            topOffset: 5
+            topOffset: 45
         })
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(notes)).then(() => {
@@ -77,7 +90,7 @@ const DeleteNotes = ({ ...props }) => {
         Toast.show({
             type: 'success',
             text1: 'Mote restored',
-            topOffset: 5
+            topOffset: 35
         })
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(array)).then(() => {
@@ -129,23 +142,37 @@ const DeleteNotes = ({ ...props }) => {
 
               <View style={styles.topbar} >
                   <TouchableOpacity 
+                  activeOpacity={0.6}
                   onPress={() => undoAll()} 
                   style={[styles.btn, { borderColor: Colors.undo } ]} >
                       <Text style={styles.txt} >Undo All</Text>
-                      <FontAwesome name='undo' size={25} color={Colors.undo} style={{ marginLeft: 7 }} />
+                      <FontAwesome 
+                      name='undo' 
+                      size={25} 
+                      color={Colors.undo} 
+                      style={{ marginLeft: 12 }} 
+                      />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => emptyBin()} style={[styles.btn, { borderColor: Colors.red } ]} >
+                  <TouchableOpacity 
+                  activeOpacity={0.6}
+                  onPress={() => emptyBin()} 
+                  style={[styles.btn, { borderColor: Colors.red } ]} >
                       <Text style={styles.txt} >Empty</Text>
-                      <Entypo name='cross' size={35} color={Colors.red} />
+                      <Entypo 
+                      name='cross' 
+                      size={35} 
+                      color={Colors.red} 
+                      style={{ marginLeft: 3 }}
+                      />
                   </TouchableOpacity>
               </View>
 
               {props.addToBin.length === 0 
               ? 
               <View style={styles.txtcase} >
-                  <FontAwesome5 name='trash-alt' size={50} color={Colors.comp3} />
-                  <Text style={styles.emptytxt} >Empty bin</Text>
+                  <FontAwesome5 name='trash-alt' size={70} color={Colors.comp3} />
+                  <Text style={styles.emptytxt} >No motes have arrived</Text>
               </View>
               :
               props.addToBin.map((item, index) => 
@@ -182,18 +209,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 12
+        marginTop: 9,
+        marginBottom: 16
     },
 
     txtcase: {
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
-        marginTop: '60%'
+        marginTop: '57%'
     },
     emptytxt: {
         fontSize: 18,
-        marginTop: 5,
+        marginTop: 14,
         color: Colors.comp3
     },
 
@@ -210,6 +238,6 @@ const styles = StyleSheet.create({
     },
     txt: {
         fontSize: 16,
-        color: Colors.comp
+        color: Colors.comp3
     }
 })

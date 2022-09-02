@@ -1,19 +1,38 @@
-import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { AntDesign } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-toast-message'
-
+import TodoButton from '../components/TodoButton'
 import Colors from '../components/Colors'
 import Button from '../components/Button'
 import Options from '../components/Options'
 import Card from '../components/Card'
+import { useFonts } from 'expo-font'
+import Screen from '../components/Screen'
+import SvgComponent from '../components/SvgComponent'
 
 
 
 const Home = ({ navigation, ...props }) => {
-
     const [ searchNotes, setSearchNotes ] = useState()
+    
+    const [loaded] = useFonts({
+        NotoSerif: require('../../assets/NotoSerif-Regular.ttf')
+    })
+
+    if(!loaded) {
+        return null
+    }
+
+    const handleSettings = () => (
+        Toast.show({
+            type: 'error',
+            text1: 'In development',
+            text2: 'Setting option is unavailable at this time',
+            topOffset: 45
+        })
+    )
 
     function deleteNotes(index) {
         let newArray = [...props.notes]
@@ -27,7 +46,7 @@ const Home = ({ navigation, ...props }) => {
         Toast.show({
             type: 'success',
             text1: 'Mote deleted',
-            topOffset: 5
+            topOffset: 45
         })
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(newArray)).then(() => {
@@ -67,8 +86,8 @@ const Home = ({ navigation, ...props }) => {
 
         Toast.show({
             type: 'success',
-            text1: 'Active motes deleted',
-            topOffset: 5
+            text1: 'Deleted all active motes',
+            topOffset: 45
         })
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(emptyArray)).then(() => {
@@ -82,30 +101,52 @@ const Home = ({ navigation, ...props }) => {
 
   return (
     <View style={styles.container} >
-        <TextInput 
-        style={styles.search} 
-        placeholder='Search motes...'
-        value={searchNotes}
-        onChangeText={(text) => setSearchNotes(text) }
-        onChange={() => search()}
-        placeholderTextColor={Colors.comp3}
-        />
+
         <View style={styles.taps} >
             <Options 
             count={props.notes.length}
             onPressBin={() => navigation.navigate('bin')}
+            onPressCal={() => navigation.navigate('cal')}
             onPressDeleAll={() => clearAll()}
             />
             <Button onPress={() => navigation.navigate('add')} />            
         </View>
 
+        <Screen />
         <ScrollView
         bounces
+        showsVerticalScrollIndicator={false}
         >
+            <View style={styles.heading} >
+                <View style={styles.headingbtn} >
+                    <TouchableOpacity 
+                    style={styles.themebtn} 
+                    onPress={handleSettings}
+                    >
+                        <Feather
+                        name='settings' 
+                        size={25} 
+                        color={Colors.neWhite} 
+                        />
+                    </TouchableOpacity>
+                    <TodoButton />
+                </View>
+                <Text style={styles.headingtxt} >Motes</Text>
+            </View>
+
+
+                <TextInput 
+                style={styles.search} 
+                placeholder='Search motes'
+                value={searchNotes}
+                onChangeText={(text) => setSearchNotes(text) }
+                onChange={() => search()}
+                placeholderTextColor={Colors.comp3}
+                />
             {props.notes.length === 0 
                 ? 
                 <View style={styles.empty} >
-                    <AntDesign name='frowno' size={60} color={Colors.comp3} />
+                    <SvgComponent />
                     <Text style={styles.emptytxt} >Make motes</Text>
                 </View>
                 : 
@@ -126,7 +167,7 @@ const Home = ({ navigation, ...props }) => {
                         />
                     </View>
                 ) 
-            }       
+            }   
         </ScrollView>
 
         <Toast />
@@ -138,18 +179,45 @@ export default Home
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.ground,
-        flex: 1
+        flex: 1,
+        backgroundColor: Colors.nedark,
+    },
+    heading: {
+        marginTop: 30,
+        marginBottom: 16,
+        paddingHorizontal: 30,
+    },
+    headingtxt: {
+        textAlign: 'center',
+        marginVertical: 35,
+        fontSize: 33,
+        fontFamily: 'NotoSerif',
+        color: '#fff'
+    },
+    headingbtn: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 4,
+    },
+    themebtn: {
+        height: 43,
+        width: 43,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 15,
+        elevation: 1,
+        backgroundColor: Colors.comp4
     },
     search: {
-        width: '80%',
-        height: 40,
+        width: '85%',
+        height: 45,
         color: Colors.white,
         alignSelf: 'center',
-        marginTop: 4,
-        marginBottom: 17,
-        borderRadius: 18,
-        paddingHorizontal: 12,
+        borderRadius: 10,
+        marginTop: 6,
+        marginBottom: 34,
+        paddingLeft: 15,
+        elevation: 4,
         backgroundColor: Colors.comp4
     },
     taps: {
@@ -158,26 +226,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '40%',
         // right: 5,
-        bottom: 25,
+        bottom: 40,
         alignSelf: 'flex-end',
         alignItems: 'flex-end',
         paddingVertical: 8,
-        paddingHorizontal: 5,
+        paddingHorizontal: 4,
     },
 
     notepage: {
-        paddingBottom: 12
+        paddingBottom: 12,
     },
 
     empty: {
-        marginTop: '58%',
+        marginTop: '11%',
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center'
     },
     emptytxt: {
-        fontSize: 20,
-        marginTop: 4,
-        color: Colors.comp3
+        fontSize: 24,
+        fontFamily: 'NotoSerif',
+        marginTop: '8.5%',
+        color: Colors.neWhite
     }
 })

@@ -8,9 +8,10 @@ import {
     TouchableOpacity,
     Button,
     Platform} from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Colors from '../components/Colors'
+import NavBack from '../components/NavBack'
 import Toast from 'react-native-toast-message'
 
 
@@ -24,12 +25,31 @@ const EditNotes = ({ route, navigation, ...props }) => {
         edited[i] = edit
         props.setNotes(edited)
 
-        // navigation.navigate('motes')
-
         AsyncStorage.setItem('storedNotes', JSON.stringify(edited)).then(() => {
             props.setNotes(edited)
         }).catch(error => console.log(error))
+
+        navigation.goBack()
     }
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerLeft: () => (
+          <NavBack 
+          onPress={() => navigation.goBack()}
+          name='Cancel'
+          color={Colors.red}
+          />
+        ),
+        headerRight: () => (
+          <NavBack 
+          onPress={forEdit}
+          name={'Confirm'}
+          color={Colors.neBlu}
+          />
+        )
+      })
+    }, [navigation, forEdit])
 
   return (
     <ScrollView style={{ backgroundColor: Colors.ground }} >
@@ -44,7 +64,7 @@ const EditNotes = ({ route, navigation, ...props }) => {
               value={edit}
               multiline
               onChangeText={(text) => setEdit(text)}
-              onChange={() => forEdit()}
+              // onChange={() => forEdit()}
               />
           </View>
       </KeyboardAvoidingView>
@@ -56,7 +76,7 @@ export default EditNotes
 
 const styles = StyleSheet.create({
   case: {
-    marginTop: 10,
+    marginTop: 20,
     paddingHorizontal: 25,
     backgroundColor: Colors.ground
   },

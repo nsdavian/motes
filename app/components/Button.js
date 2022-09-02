@@ -7,7 +7,7 @@ import Colors from './Colors'
 
 const Button = ({ onPress }) => {
   return (
-      <TouchableOpacity activeOpacity={0.9} style={styles.case} onPress={onPress} >
+      <TouchableOpacity activeOpacity={0.7} style={styles.case} onPress={onPress} >
           <Entypo name='plus' size={40} color={Colors.neWhite } />
       </TouchableOpacity>
   )
