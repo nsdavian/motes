@@ -2,19 +2,21 @@ import {
   StyleSheet,
   Text,
   View,
-  Keyboard,
   Platform,
-  ScrollView,
+  ScrollView, 
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Button
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Colors from "../components/Colors";
 import NavBack from "../components/NavBack";
+import InputBar from "../components/InputBar";
+import InputModal from "../components/InputModal";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const AddNotes = ({ navigation , ...props }) => {
+const AddNotes = ({ navigation, route , ...props }) => {
+    const [modalOpen, setModalOpen] = useState(false)
 
     const handle = () => (
         props.handleNotes(),
@@ -41,27 +43,54 @@ const AddNotes = ({ navigation , ...props }) => {
         })
     }, [navigation, props.handleNotes])
 
+    const calFunction = () => (
+        setModalOpen(!modalOpen),
+        navigation.push('culator')
+    )
+
+    const item = props.note
+
+    const speechFunction = () => (
+        setModalOpen(!modalOpen),
+        navigation.navigate('speech', {item})
+    )
+
   return (
-      <ScrollView style={styles.case} >
-          <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          >
-              <View style={styles.note} >
-                  <TextInput 
-                  style={styles.input}
-                  value={props.note}
-                  onBlur={() => props.handleNotes()}
-                  onChangeText={(text) => props.setNote(text)}
-                   multiline
-                   placeholderTextColor={Colors.comp3}
-                   placeholder="Mote" 
-                  />                      
-              </View>
-              <Text style={styles.newnote} >Tap for new mote</Text>
-              {/* <Button title="add" onPress={() => props.handleNotes()} /> */}
-          </KeyboardAvoidingView>
-          
-      </ScrollView>
+    <View style={{ flex: 1 }} >
+        <ScrollView style={styles.case} >
+            <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <View style={styles.note} >
+                    <TextInput 
+                    style={styles.input}
+                    value={props.note}
+                    onChangeText={(text) => props.setNote(text)}
+                    multiline
+                    placeholderTextColor={Colors.comp3}
+                    placeholder="Mote" 
+                    />       
+
+                </View>
+                {/* <Button title="add" onPress={() => props.handleNotes()} /> */}
+            </KeyboardAvoidingView>
+
+            
+        </ScrollView>
+        <InputModal 
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        onPressCal={calFunction}
+        onPressSpeech={speechFunction}
+        pika={props.setNote}
+        />
+                <InputBar 
+                addMote={() => props.handleNotes()}
+                addOptions={() => setModalOpen(!modalOpen)}
+                addIcon={'add-box'}
+                name={'Motes'}
+                />
+    </View>
   );
 };
 
@@ -77,13 +106,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         // paddingBottom: 60,
         // backgroundColor: 'red'
-    },
-    newnote: {
-        textAlign: 'center',
-        marginTop: 70,
-        fontSize: 20,
-        fontWeight: '600',
-        color: Colors.neWhite
     },
     input: {
         flex: 1,

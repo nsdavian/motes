@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, {useRef} from 'react'
 import ActionSheet from 'react-native-actions-sheet'
-import { Feather, FontAwesome5, Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome5, Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import Colors from './Colors';
-import Toast from 'react-native-toast-message'
 
-const Options = ({ onPressBin, onPressDeleAll, onPressCal, count }) => {
+const Options = ({ onPressBin, onPressDeleAll, onPressCal, onPressHide, onPressTide, count, hide }) => {
 
     const opensheet = useRef();
 
@@ -39,39 +38,40 @@ const Options = ({ onPressBin, onPressDeleAll, onPressCal, count }) => {
                         <Text style={styles.btntxt} >Recycle Bin</Text>
                     </View>  
 
+                    { hide === 'tide' 
+                    ? 
                     <View style={styles.align} >
                         <TouchableOpacity 
-                        // onPress={() => Toast.show({
-                        //     type: 'error',
-                        //     text1: 'In development',
-                        //     text2: 'Layout change is unavailable at this time',
-                        //     topOffset: 5
-                        // })}
-                        onPress={onPressCal}
+                        onPress={onPressTide}
                         activeOpacity={0.8}
                         style={styles.btn} >
-                            <FontAwesome name='calendar' size={30} color={Colors.comp3} />
-                            {/* <AntDesign name='appstore-o' size={30} color={Colors.comp3} /> */}
+                            <MaterialCommunityIcons name='card-text-outline' size={40}  color={Colors.comp3} />
                         </TouchableOpacity>
-                        <Text style={styles.btntxt} >Calendar</Text>
-                    </View> 
-
-                    <View style={styles.align} >
-                        <TouchableOpacity 
-                        onPress={() => 
-                            Toast.show({
-                                type: 'error',
-                                text1: 'In development',
-                                text2: 'Sketch option is unavailable at this time',
-                                topOffset: 45
-                              })
-                        }
-                        activeOpacity={0.8}
-                        style={styles.btn} >
-                            <MaterialCommunityIcons name='draw' size={40}  color={Colors.comp3} />
-                        </TouchableOpacity>
-                        <Text style={styles.btntxt} >Sketch</Text>  
+                        <Text style={styles.btntxt} >Show</Text>  
                     </View>  
+                    :
+                    <View style={styles.align} >
+                        <TouchableOpacity 
+                        onPress={onPressHide}
+                        activeOpacity={0.8}
+                        style={styles.btn} >
+                            <MaterialCommunityIcons name='card-text-outline' size={40}  color={Colors.comp3} />
+                        </TouchableOpacity>
+                        <Text style={styles.btntxt} >{ !hide ? 'Hide' : 'Show' }</Text>  
+                    </View>  
+
+                    }
+
+                                <View style={styles.align} >
+                                    <TouchableOpacity 
+                                    onPress={onPressCal}
+                                    activeOpacity={0.8}
+                                    style={styles.btn} >
+                                        <FontAwesome name='calendar' size={30} color={Colors.comp3} />
+                                        {/* <AntDesign name='appstore-o' size={30} color={Colors.comp3} /> */}
+                                    </TouchableOpacity>
+                                    <Text style={styles.btntxt} >Calendar</Text>
+                                </View> 
 
                 </View>
 
@@ -83,7 +83,7 @@ const Options = ({ onPressBin, onPressDeleAll, onPressCal, count }) => {
                     <Entypo name='squared-cross' size={25} color={Colors.ground} />
                 </TouchableOpacity>
 
-                <Text style={styles.brand} >By North X Studio  /  Beta Version 1.1.0</Text>
+                <Text style={styles.brand} >By North X Studio  /  Beta Version 1.2.0</Text>
 
             </View>
         </ActionSheet>

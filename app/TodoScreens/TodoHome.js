@@ -10,7 +10,8 @@ import AllCard from '../components/AllCard'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { todoStore } from '../utils/store'
 import { listStore } from '../utils/listStore'
-import bg from '../../assets/images/bg6.jpg'
+import SvgComponent from '../components/SvgComponent'
+
 
 const TodoHome = ({ navigation, setlists }) => {
   const [lists] = useAtom(listStore)
@@ -49,13 +50,14 @@ const TodoHome = ({ navigation, setlists }) => {
   
   
   return (
-    <ImageBackground source={bg} style={{ flex: 1 }} >
-      <View style={{ flex: 1, backgroundColor: 'rgba(51, 51, 51, 0.8)' }} >
+    <ImageBackground  style={{ flex: 1, backgroundColor: Colors.nedark }} >
+      <View style={{ flex: 1,  }} >
 
         <Screen />
         <ScrollView style={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} >
+
           <View style={styles.heading} >
-            <Text style={styles.headingtxt} >Todo's</Text>
+            <Text style={styles.headingtxt} onPress={() => navigation.goBack()} >Todo's</Text>
             <TouchableOpacity 
             onPress={() => navigation.goBack()} 
             style={styles.headingbtn}>
@@ -67,7 +69,7 @@ const TodoHome = ({ navigation, setlists }) => {
             </TouchableOpacity>
           </View>
          
-          <View style={{ marginBottom: 37 }} >
+          <View style={{ marginBottom: 50 }} >
             <AllCard 
             onPress={() => forNav()}
             title={"All"} 
@@ -84,15 +86,28 @@ const TodoHome = ({ navigation, setlists }) => {
                 </TouchableOpacity>
               </View>
 
-              {lists?.map((list, index) => (
-                <TouchableOpacity style={{ paddingHorizontal: 5 }} activeOpacity={0.8} key={list.id} onPress={() => forNav(list.id)} >
-                  <ListCard 
-                  title={list.title} 
-                  onDeleteGroup={() => deleteGroup(index)}
-                  badge={todos.filter((todo) => todo.list === list.id).length.toLocaleString()}
-                  />
+              {
+                lists.length === 0 
+                ? 
+                <TouchableOpacity 
+                activeOpacity={0.9} 
+                style={styles.empty} 
+                onPress={openTodoListModal}
+                >
+                  <SvgComponent />
                 </TouchableOpacity>
-              ))}
+                :
+                lists?.map((list, index) => (
+                  <TouchableOpacity style={{ paddingHorizontal: 5 }} activeOpacity={0.8} key={list.id} onPress={() => forNav(list.id)} >
+                    <ListCard 
+                    title={list.title} 
+                    onDeleteGroup={() => deleteGroup(index)}
+                    badge={todos.filter((todo) => todo.list === list.id).length.toLocaleString()}
+                    />
+                  </TouchableOpacity>
+                ))
+              }
+
 
             </View>
         </ScrollView>
@@ -107,21 +122,21 @@ export default TodoHome
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: 51,
-    marginBottom: 43,
+    marginTop: 64,
+    marginBottom: 51,
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 30,
   },
   headingtxt: {
     color: Colors.neWhite,
-    fontSize: 33,
+    fontSize: 37,
     fontFamily: 'NotoSerif'
   },
   headingbtn: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: '50%',
+    marginLeft: '46%',
     marginTop: 5
   },
   headingicon: {
@@ -142,5 +157,9 @@ const styles = StyleSheet.create({
   },
   groupbtn: {
     padding: 4
+  },
+  empty: {
+    alignSelf: 'center',
+    marginTop: 70
   }
 })

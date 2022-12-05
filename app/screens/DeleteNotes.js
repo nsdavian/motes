@@ -1,13 +1,28 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    ScrollView, 
+    TouchableOpacity, 
+    Alert, 
+    ToastAndroid } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { FontAwesome, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../components/Colors'
 import DeleteCard from '../components/DeleteCard'
 import NavBack from '../components/NavBack'
-import Toast from 'react-native-toast-message'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DeleteNotes = ({ navigation, ...props }) => {
+
+    const deleteMoteToast = () => {
+        ToastAndroid.showWithGravity( 'Mote has permanently been deleted', ToastAndroid.SHORT, ToastAndroid.CENTER )
+    }
+
+    const undoAllToast = () => {
+        ToastAndroid.showWithGravity( 'Mote has been restored', ToastAndroid.LONG, ToastAndroid.CENTER )
+    }
+
 
     const count = [...props.addToBin]
 
@@ -39,11 +54,7 @@ const DeleteNotes = ({ navigation, ...props }) => {
                         emptyArray = []
                         props.setAddToBin(emptyArray)
                         
-                        Toast.show({
-                            type: 'success',
-                            text1: 'All motes have permanently been deleted',
-                            topOffset: 5
-                        })
+                        deleteMoteToast()
 
                         AsyncStorage.setItem('deletedNotes', JSON.stringify(emptyArray)).then(() => {
                             props.setAddToBin(emptyArray)
@@ -63,11 +74,7 @@ const DeleteNotes = ({ navigation, ...props }) => {
         props.setAddToBin([])
         props.setNotes([notes, deletedNotes])
 
-        Toast.show({
-            type: 'success',
-            text1: 'All motes restored',
-            topOffset: 45
-        })
+        undoAllToast()
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(notes)).then(() => {
             props.setNotes(notes)
@@ -87,11 +94,7 @@ const DeleteNotes = ({ navigation, ...props }) => {
         newArray.splice(index, 1);
         props.setAddToBin(newArray);
 
-        Toast.show({
-            type: 'success',
-            text1: 'Mote restored',
-            topOffset: 35
-        })
+        undoAllToast()
 
         AsyncStorage.setItem('storedNotes', JSON.stringify(array)).then(() => {
             props.setNotes(array)
@@ -100,7 +103,6 @@ const DeleteNotes = ({ navigation, ...props }) => {
         AsyncStorage.setItem('deletedNotes', JSON.stringify(newArray)).then(() => {
             props.setAddToBin(newArray)
         }).catch(error => console.log(error))
-
 
     }
 
@@ -120,11 +122,7 @@ const DeleteNotes = ({ navigation, ...props }) => {
                         newArray.splice(index, 1)
                         props.setAddToBin(newArray)
 
-                        Toast.show({
-                            type: 'success',
-                            text1: 'Mote permanently deleted',
-                            topOffset: 5
-                        })
+                        deleteMoteToast()
 
                         AsyncStorage.setItem('deletedNotes', JSON.stringify(newArray)).then(() => {
                             props.setAddToBin(newArray)
@@ -171,7 +169,7 @@ const DeleteNotes = ({ navigation, ...props }) => {
               {props.addToBin.length === 0 
               ? 
               <View style={styles.txtcase} >
-                  <FontAwesome5 name='trash-alt' size={70} color={Colors.comp3} />
+                  <FontAwesome5 name='trash-alt' size={70} color={Colors.nedark} />
                   <Text style={styles.emptytxt} >No motes have arrived</Text>
               </View>
               :
@@ -189,7 +187,6 @@ const DeleteNotes = ({ navigation, ...props }) => {
               )
               }
 
-              <Toast />
           </View>
       </ScrollView>
   )
@@ -199,7 +196,7 @@ export default DeleteNotes
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.ground
+        backgroundColor: Colors.comp3
     },
 
     topbar: {
@@ -222,7 +219,7 @@ const styles = StyleSheet.create({
     emptytxt: {
         fontSize: 18,
         marginTop: 14,
-        color: Colors.comp3
+        color: Colors.nedark
     },
 
     btn: {
@@ -232,12 +229,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: 15,
-        borderWidth: 1,
+        borderWidth: 1.4,
         borderRadius: 5,
         borderColor: Colors.comp
     },
     txt: {
-        fontSize: 16,
-        color: Colors.comp3
+        fontSize: 16.5,
+        fontWeight: '600',
+        color: Colors.nedark
     }
 })

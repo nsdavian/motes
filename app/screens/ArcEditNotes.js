@@ -22,16 +22,16 @@ const EditNotes = ({ route, navigation, ...props }) => {
 
     const { i, n } = route.params
     const [ edit, setEdit ] = useState(n)
-    
+
     const po = edit.toString()
-
+    
     const forEdit = () => {
-        let edited = [...props.notes]
+        let edited = [...props.arcNotes]
         edited[i] = po
-        props.setNotes(edited)
+        props.setArcNotes(edited)
 
-        AsyncStorage.setItem('storedNotes', JSON.stringify(edited)).then(() => {
-            props.setNotes(edited)
+        AsyncStorage.setItem('storedArcNotes', JSON.stringify(edited)).then(() => {
+            props.setArcNotes(edited)
         }).catch(error => console.log(error))
 
         navigation.goBack()
@@ -52,7 +52,8 @@ const EditNotes = ({ route, navigation, ...props }) => {
           name={'Confirm'}
           color={Colors.neBlu}
           />
-        )
+        ),
+        headerTitleStyle: { color: Colors.nedark }
       })
     }, [navigation, forEdit])
 
@@ -66,7 +67,7 @@ const EditNotes = ({ route, navigation, ...props }) => {
         navigation.push('speech', {item})
     )
 
-    const item = edit
+    const item = edit.toString()
 
   return (
     <View style={{ flex: 1 }} >

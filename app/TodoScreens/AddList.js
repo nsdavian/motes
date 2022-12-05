@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { createListForm } from '../models/list'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Colors from '../components/Colors'
-import bg from '../../assets/images/bg6.jpg'
 import NavBack from '../components/NavBack'
 
 
@@ -28,7 +27,7 @@ const AddList = ({ navigation, lists, setlists }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'Group',
+            title: 'Add Group',
             headerRight: () => (
                 <NavBack 
                 onPress={handleAddList}
@@ -50,7 +49,7 @@ const AddList = ({ navigation, lists, setlists }) => {
     }, [navigation, handleAddList])
 
   return (
-    <ImageBackground source={bg} imageStyle={{ opacity: 0.9 }} style={{ flex: 1, backgroundColor: Colors.comp3 }} >
+    <ImageBackground style={{ flex: 1, backgroundColor: Colors.comp3 }} >
         <View style={styles.previewcase} >
             <View style={styles.preview} >
                 <Text style={styles.previewtxt} >{name}</Text>
@@ -80,20 +79,20 @@ const styles = StyleSheet.create({
     previewcase: {
         flex: 1,
         alignItems: 'center',
-        // backgroundColor: 'rgba(0,0,0,0.4)'
+        backgroundColor: 'rgba(228,228,228,0.2)'
     },
     preview: {
         minHeight: 150,
         width: '84%',
         marginTop: 40,
-        borderRadius: 5,
+        borderRadius: 10,
         borderColor: Colors.ground,
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 8,
         paddingHorizontal: 10,
-        backgroundColor: 'rgba(115,115,115,0.9)'
+        backgroundColor: Colors.neWhite
     },
     previewtxt: {
         textAlign: 'center',
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 8,
         paddingHorizontal: 10 ,
-        backgroundColor: Colors.comp3
+        backgroundColor: Colors.neWhite
     },
     txt: {
         marginTop: 4,

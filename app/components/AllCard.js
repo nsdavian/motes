@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 30, 
         elevation: 3,
-        backgroundColor: Colors.ground
+        backgroundColor: Colors.theme
     },
     counttxt: {
         color: '#fff',

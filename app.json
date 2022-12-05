@@ -2,12 +2,12 @@
   "expo": {
     "name": "Motes",
     "slug": "Motes",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
-    "icon": "./assets/MotesLogo2.png",
+    "icon": "./assets/Micon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/MotesLogo2.png",
+      "image": "./assets/Msplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -22,13 +22,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/MotesLogo2.png",
+        "foregroundImage": "./assets/Micon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.nsdave.motes"
+      "package": "com.nsdave.motes",
+      "versionCode": 3
     },
     "web": {
-      "favicon": "./assets/MotesLogo2.png"
+      "favicon": "./assets/Micon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b04cfb0a-34bd-4cd2-bffa-8f0d9714308f"
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useCallback, useState, useMemo, useLayoutEffect } from 'react'
 import TodoBar from '../components/TodoBar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -9,7 +9,7 @@ import { Snackbar } from 'react-native-paper'
 import TodoCard from '../components/TodoCard'
 import { listStore } from '../utils/listStore'
 import Colors from '../components/Colors'
-import bg from '../../assets/images/bg3.jpg'
+import { MaterialIcons } from '@expo/vector-icons'
 import NavBack from '../components/NavBack'
 
 
@@ -51,7 +51,7 @@ const AllTodos = (props) => {
 
     useLayoutEffect(() => {
       navigation.setOptions({
-        title: list ? `${ list.title.length > 26 ? `${list.title.substring(0, 23)}...` : list.title }` : "Todo's",
+        title: list ? `${ list.title.length > 26 ? `${list.title.substring(0, 23)}...` : list.title }` : "All Todo's",
         headerLeft: () => (
           <View style={{ marginRight: 20 }} >
             <NavBack 
@@ -60,7 +60,14 @@ const AllTodos = (props) => {
             name='Back'
             />
           </View>
-      )
+      ),
+      // headerRight: () => (
+      //   <View style={{ marginTop: 4, marginRight: 4 }} >
+      //     <TouchableOpacity>
+      //       <MaterialIcons name='more-time' size={27} color={Colors.ww} />
+      //     </TouchableOpacity>
+      //   </View>
+      // )
       })
     }, [list, navigation])
 
@@ -90,14 +97,14 @@ const AllTodos = (props) => {
 
 
   return (
-    <ImageBackground source={bg} style={{ flex: 1 }} >
-      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.1)' }} >
+    <ImageBackground  style={{ flex: 1, backgroundColor: Colors.comp3 }} >
+      <View style={{ flex: 1, backgroundColor: 'rgba(228,228,228,0.1)' }} >
         <ScrollView style={{ flex: 1, paddingVertical: 22 }} >
 
         {uncompleted.length > 0 && (
           <View style={{ marginBottom: 31 }} >
                 <View style={styles.case} >
-                  <Text style={styles.txt} >The undone</Text>
+                  <Text style={styles.txt} >undone</Text>
                 </View>
               {uncompleted?.map((todo) => 
                 <View key={todo.id} style={{ paddingHorizontal: 5 }} >
@@ -128,6 +135,7 @@ const AllTodos = (props) => {
         <Snackbar
         visible={snack}
         onDismiss={notVisible}
+        style={{ backgroundColor: Colors.nedark,  }}
         action={{
           label: 'Cancel',
           onPress: () => setSnack(false)

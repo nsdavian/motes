@@ -1,25 +1,15 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState, useRef } from 'react'
-import { AntDesign, MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import React, { useState, useRef, useEffect } from 'react'
+import { AntDesign, MaterialIcons, Feather } from '@expo/vector-icons'
 import ActionSheet from 'react-native-actions-sheet'
 import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Colors from './Colors'
 
-const Card = ({ note, time, dele, eded, vi }) => {
-    const [textTheme, setTextTheme] = useState(false)
-    const [backTheme, setBackTheme] = useState(0)
-
-
-    // const themeChange = () => {
-    //     const theme = '';
-    //     const white = '';
-    //     const blue = '';
-    //     const red = '';
-
-    //     setBackTheme()
-    // }
-
+const Card = ({ note, time, dele, eded, vi, hide, onArc, iconName, iconIcon }) => {
+    const [theme, setTheme] = useState(false)
+    const [label, setlabel] = useState(false)
 
 
     const opensheet = useRef();
@@ -30,8 +20,9 @@ const Card = ({ note, time, dele, eded, vi }) => {
 
     return (
     <View>
-        <TouchableOpacity activeOpacity={0.7} onPress={showActionSheet} style={styles.case} >
-            <Text style={styles.txt} >{ note.length > 200 ? `${note.substring(0, 190)}...` : note }</Text>
+        <TouchableOpacity activeOpacity={0.7} onLongPress={() => setTheme(!theme)} onPress={showActionSheet} style={[ theme ? styles.case2 : styles.case]} >
+            { hide !== 'tide' ? <Text style={[ theme ? styles.txt2 : styles.txt]} >{ note?.length > 210 ? `${note.substring(0, 200)}...` : note }</Text>
+             : <Text style={styles.txtblur} >·································································</Text> }
         </TouchableOpacity> 
 
         <ActionSheet ref={opensheet} >
@@ -66,17 +57,10 @@ const Card = ({ note, time, dele, eded, vi }) => {
                         <TouchableOpacity 
                         style={[styles.btn, { borderColor: Colors.comp4 }]} 
                         activeOpacity={0.6}
-                        onPress={() => 
-                            Toast.show({
-                                type: 'error',
-                                text1: 'In development',
-                                text2: 'Card color change is unavailabe at this time',
-                                topOffset: 45
-                              })
-                        } >
-                            <MaterialCommunityIcons color={Colors.comp3} name='card-text-outline' size={40} />
+                        onPress={onArc} >
+                            <MaterialIcons color={Colors.comp3} name={iconIcon} size={40} />
                         </TouchableOpacity>
-                        <Text style={styles.btntxt} >Card</Text>
+                        <Text style={styles.btntxt} >{iconName}</Text>
                     </View>
 
                     <View style={styles.btnwrap} >
@@ -105,7 +89,6 @@ const styles = StyleSheet.create({
     case: {
         flexDirection: 'row',
         minHeight: 60,
-        maxHeight: 280,
         width: '92%',
         alignSelf: 'center',
         paddingHorizontal: 13,
@@ -115,10 +98,52 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: Colors.comp4
     },
+    labelcase: {
+        flexDirection: 'row',
+        minHeight: 70,
+        width: '92%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 13,
+        paddingVertical: 10,
+        borderRadius: 12,
+        elevation: 5,
+        overflow: 'hidden',
+        backgroundColor: Colors.comp4
+    },
+    case2: {
+        flexDirection: 'row',
+        minHeight: 60,
+        width: '92%',
+        alignSelf: 'center',
+        paddingHorizontal: 13,
+        paddingVertical: 10,
+        borderRadius: 12,
+        elevation: 5,
+        overflow: 'hidden',
+        backgroundColor: Colors.neCofe
+    },
     txt: {
-        color: '#ffffff',
+        color: Colors.www,
         fontSize: 16,
-        fontWeight: '400'
+        fontWeight: '400',
+    },
+    txt2: {
+        color: Colors.nedark,
+        fontSize: 16,
+        fontWeight: '400',
+    },
+    txtblur: {
+        color: Colors.nedark,
+        fontSize: 16,
+        fontWeight: '400',
+        alignSelf:"center"
+    },
+    label: {
+        fontSize: 22,
+        fontFamily: 'NotoSerif',
+        color: Colors.neCofe
     },
 
     bottomSheet: {

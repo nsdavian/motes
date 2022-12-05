@@ -16,7 +16,7 @@ const TodoBar = ({ onAddTodo }) => {
   return (
     <SafeAreaView
     edges={['bottom']}
-    style={{ padding: 16, backgroundColor: 'rgba(228,228,228,0.2)' }}
+    style={{ padding: 16, backgroundColor: Colors.nedark }}
     > 
       <View style={styles.case} >
         <TextInput 
@@ -49,8 +49,9 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 38,
     paddingHorizontal: 10,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
+    // borderTopLeftRadius: 6,
+    // borderBottomLeftRadius: 6,
+    borderRadius: 6,
     backgroundColor: Colors.ww
   },
   btn: {

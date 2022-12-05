@@ -10,12 +10,12 @@ import NavBack from '../components/NavBack'
 const CalScreen = ({ navigation }) => {
   const progress = useSharedValue()
 
-  useEffect(() => {
-    progress.value = withRepeat( withTiming(4 * Math.PI, {
-       duration: 4000,
-       easing: Easing.linear 
-      }), 1)
-  }, [])
+  // useEffect(() => {
+  //   progress.value = withRepeat( withTiming(4 * Math.PI, {
+  //      duration: 4000,
+  //      easing: Easing.linear 
+  //     }), 1)
+  // }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,18 +25,22 @@ const CalScreen = ({ navigation }) => {
         color={Colors.neBlu}
         name='Back'
         />
-      )
+      ),
+      headerStyle: { backgroundColor: Colors.ground }
     }) 
   }, [navigation])
 
   return (
     <View style={styles.case} >
-      <Calendar
-      theme={{
-        todayBackgroundColor:'#000000'
-      }}
-      />
-      <View style={styles.dotcase} >
+      <View style={{ flex: 1 }} >
+        <CalendarList
+        theme={{
+          todayBackgroundColor:'#000000'
+        }}
+        />        
+      </View>
+
+      {/* <View style={styles.dotcase} >
         {new Array(12).fill(0).map((_,index) => {
           return (
             <ClockSquare 
@@ -46,7 +50,7 @@ const CalScreen = ({ navigation }) => {
             />
           )
         })}
-      </View>
+      </View> */}
       <SafeAreaView
       edges={['bottom' ]}
       style={styles.bottom}
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
   bottom: {
     alignItems: 'center',
     padding: 10,
-    backgroundColor: Colors.nedark,
+    backgroundColor: Colors.ground,
   },
   txt: {
     fontSize: 16,
